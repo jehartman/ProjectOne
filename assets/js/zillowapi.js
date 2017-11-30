@@ -4,7 +4,9 @@ var citystate;
 var userLatitude = 30.30;
 var userLongitude = -97.71;
 
-
+var highPrice;
+var lowPrice;
+var changePrice;
 
 
 
@@ -12,16 +14,16 @@ var userLongitude = -97.71;
 //---------------------------------------Get data when user inputs info
 var search = function(event) {
 	event.preventDefault();
+
+	$("#high-price").empty();
+	$("#low-price").empty();
+
 	address = $("#user-address").val();
 	citystate = $("#user-city-state").val();
-	console.log(address);
-	console.log(citystate);
-
+	
 	var addressConverted = spacesToPlus(address);
 	var citystateConverted = spacesToPlus(citystate);
 
-	console.log(addressConverted);
-	console.log(citystateConverted);
 
 	// zwsid = X1-ZWz18vkeamfbbf_493z4
 	var queryURL = "https://galvanize-cors-proxy.herokuapp.com/http://www.zillow.com/webservice/GetSearchResults.htm?zws-id=X1-ZWz18vkeamfbbf_493z4&address=" + addressConverted + "&citystatezip=" + citystateConverted;
@@ -34,21 +36,31 @@ var search = function(event) {
 	})
 	// After data comes back from the request
 	.done(function(response) {
-		console.log(response);
 		var parser = new DOMParser();
 		var xmlResult = parser.parseFromString(response, "text/xml");
 		var jsonObject = xmlToJson(xmlResult);
-		
-		
-		userLatitude = parseFloat(jsonObject["SearchResults:searchresults"].response.results.result.address.latitude["#text"]);
 
-		userLongitude = parseFloat(jsonObject["SearchResults:searchresults"].response.results.result.address.longitude["#text"]);
-		console.log(userLatitude);
-		console.log(userLongitude);
+		console.log(jsonObject);
+		
+		
+		if (jsonObject["SearchResults:searchresults"].response.results.result[0]) {
+			userLatitude = parseFloat(jsonObject["SearchResults:searchresults"].response.results.result[0].address.latitude["#text"]);
+
+			userLongitude = parseFloat(jsonObject["SearchResults:searchresults"].response.results.result[0].address.longitude["#text"]);
+
+			highPrice = jsonObject["SearchResults:searchresults"].response.results.result[0].zestimate.valuationRange.high["#text"];
+			lowPrice = jsonObject["SearchResults:searchresults"].response.results.result[0].zestimate.valuationRange.low["#text"];
+		}
+		else {
+			userLatitude = parseFloat(jsonObject["SearchResults:searchresults"].response.results.result.address.latitude["#text"]);
+
+			userLongitude = parseFloat(jsonObject["SearchResults:searchresults"].response.results.result.address.longitude["#text"]);
+
+			highPrice = jsonObject["SearchResults:searchresults"].response.results.result.zestimate.valuationRange.high["#text"];
+			lowPrice = jsonObject["SearchResults:searchresults"].response.results.result.zestimate.valuationRange.low["#text"];
+		}
+		
 		initMap();
-
-		var highPrice = jsonObject["SearchResults:searchresults"].response.results.result.zestimate.valuationRange.high["#text"];
-		var lowPrice = jsonObject["SearchResults:searchresults"].response.results.result.zestimate.valuationRange.low["#text"];
 
 		var formatter = new Intl.NumberFormat('en-US', {
 			style: 'currency',
@@ -58,9 +70,7 @@ var search = function(event) {
 
 		$("#high-price").append(formatter.format(highPrice));
 		$("#low-price").append(formatter.format(lowPrice));
-
 	});
-	
 };
 
 
@@ -116,36 +126,8 @@ var spacesToPlus = function(text) {
 			newText += text[i];
 		}
 	}
-	console.log(newText);
 	return newText
 }
-
-
-
-
-//-------------------------------- add commas to prices
-// var addCommas = function(price) {
-// 	console.log(price);
-// 	var newPrice;
-// 	for (var i = price.length; i < 0; i--) {
-// 		if (newPrice.length == 3 || newPrice.length == 7) {
-// 			newPrice.prepend(",");
-// 			newPrice.prepend(price[i]);
-// 			console.log(price);
-// 			console.log(newPrice);
-// 		}
-// 		else {
-// 			newPrice.prepend(price[i]);
-// 			console.log(newPrice)
-// 		}
-// 	}
-// 	console.log(newPrice);
-// 	return newPrice;
-// }
-
-
-
-
 
 
 
@@ -164,8 +146,7 @@ function initMap() {
     radius: 500,
     type: ['store']
   }, callback);
-}// end init map function do not delete
-
+}
 
 
 function callback(results, status){
@@ -188,11 +169,6 @@ function createMarker(place){
   });
 }
 
-
-
-
-$("#user-address").val("7405 Sevilla Dr");
-$("#user-city-state").val("Austin TX");
 
 
 $("#btnSubmit").on("click", search)

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <title>Google Map / Zillow</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <style>
+       #map {
+        height: 400px;
+        width: 100%;
+       }
+    </style>
+  </head>
+  <body>
+    <h3>Zillow/Google Maps Demo</h3>
+    <div id="map"></div>
+
+    
+<!-- PROPERTY SEARCH BUTTON -->
+
+    <div class="container">
+    <h1>Zillow Property Search</h1>
+
+    <!-- We'll be dumping our JSON contents in here -->
+    <div id="property-view"></div>
+
+    <!-- This form will be where users input data about the properties -->
+    <form id="property-form">
+      <label for="property-input">Search for a property through Zillow</label>
+      <input type="text" id="property-input"><br>
+
+      <!-- This button will trigger our AJAX call -->
+      <input id="find-property" type="submit" value="Property Search">
+    </form>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+      // This .on("click") function will trigger the AJAX Call
+      $("#find-property").on("click", function(event) {
+
+        // event.preventDefault() can be used to prevent an event's default behavior.
+        // Here, it prevents the submit button from trying to submit a form when clicked
+        event.preventDefault();
+
+        // Here we grab the text from the input box
+        var property = $("#property-input").val();
+
+        // Here we construct our URL
+        var queryURL = "https://www.omdbapi.com/?t=" + property + "&y=&plot=short&apikey=trilogy";
+
+        // Write code between the dashes below to hit the queryURL with $ajax, then take the response data
+        // and display it in the div with an id of property-view
+
+        //------YOUR CODE GOES IN THESE DASHES. DO NOT MANUALLY EDIT THE HTML ABOVE.
+
+        $.ajax({
+          url: queryURL,
+          method: "GET"
+        }).done(function(response) {
+          $("#property-view").text(JSON.stringify(response));
+        });
+
+        // -----------------------------------------------------------------------
+
+      });
+    </script>
+  </div>
+
+
+
+    <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
+    <script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyCrFBjtMF24Hj6qc7QR8XGq0YTWOiijZic",
+    authDomain: "maps-2de3c.firebaseapp.com",
+    databaseURL: "https://maps-2de3c.firebaseio.com",
+    projectId: "maps-2de3c",
+    storageBucket: "maps-2de3c.appspot.com",
+    messagingSenderId: "26966384338"
+  };
+  firebase.initializeApp(config);
+</script>
+    <script>
+      function initMap() {
+        var uluru = {lat: 37.0902, lng: -95.7129};
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 4,
+          center: uluru
+        });
+        var marker = new google.maps.Marker({
+          position: uluru,
+          map: map
+        });
+      }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD-mMj70eJt2V6O6BNyTGVjN-jo-XUrdq0&callback=initMap">
+    </script>
+
+    <!-- AJAX CALL EXAMPLE!!! -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+      <script type="text/javascript">
+    var propertyName = "mr+nobody";
+    var queryURL = "https://www.omdbapi.com/?t=" + propertyName + "&y=&plot=short&apikey=trilogy";
+
+    $.ajax({
+      url: queryURL,
+      method: "GET"
+    }).done(function(response) {
+
+      // Chaining several jQuery methods to achieve the following:
+      var firstRowTds = $("table") // Get a reference to the table as a jQuery object
+        .children() // Get all of table's immediate children as an array
+        .eq(1) // Get element at the first index of this returned array (the <tbody>)
+        .children("tr") // Get an array of all <tr> children inside the returned <tbody>
+        .eq(0) // Get the 0th child of this returned array (the first <tr>)
+        .children("td"); // Get an array of all <td> children inside the returned <tr>
+
+      // Setting the inner text of each <td> in the firstRowTds array
+      firstRowTds.eq(0).text(response.Title);
+
+      firstRowTds.eq(1).text(response.Year);
+
+      firstRowTds.eq(2).text(response.Actors);
+    });
+
+    propertyName = "the+little+mermaid";
+    queryURL = "https://www.omdbapi.com/?t=" + propertyName + "&y=&plot=short&apikey=trilogy";
+
+    $.ajax({
+      url: queryURL,
+      method: "GET"
+    }).done(function(response) {
+      console.log(response);
+
+      // Getting the second row of the table and storing it in secondRowTds
+      var secondRowTds = $("table")
+        .children()
+        .eq(1)
+        .children("tr")
+        .eq(1)
+        .children("td");
+
+      // Setting the inner text of each <td> in secondRowTds
+      secondRowTds.eq(0).text(response.Title);
+
+      secondRowTds.eq(1).text(response.Year);
+
+      secondRowTds.eq(2).text(response.Actors);
+    });
+
+    propertyName = "the+lion+king";
+    queryURL = "https://www.omdbapi.com/?t=" + propertyName + "&y=&plot=short&apikey=trilogy";
+
+    $.ajax({
+      url: queryURL,
+      method: "GET"
+    }).done(function(response) {
+      console.log(response);
+
+      // Getting the third row of the table
+      var thirdRowTds = $("table")
+        .children()
+        .eq(1)
+        .children("tr")
+        .eq(2)
+        .children("td");
+
+      // Setting text of the thirdRowTds
+      thirdRowTds.eq(0).text(response.Title);
+
+      thirdRowTds.eq(1).text(response.Year);
+
+      thirdRowTds.eq(2).text(response.Actors);
+    });
+  </script>
+
+  </body>
+</html>

@@ -2,7 +2,9 @@
 <html>
 <head>
 	<title></title>
+	<meta name="viewpoint" content="initial-scale=1.0">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
 </head>
 <body>
 
@@ -18,7 +20,24 @@
 		<button type="submit" class="btn btn-primary" id="btnSubmit">Submit</button>
 	</form>
 
+	<div id="prices">
+		<div id="low-price">
+			Lowest prices in the area:<br>
+		</div>
+		<br>
+		<div id="high-price">
+			Highest Prices in the area:<br>
+		</div>
+	</div>
+
+
+	<div id="map"></div>
+
+
+<script type="text/javascript" src="assets/js/gmap.js"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDzamXziujXKppE1n_9Ec7J9bsgNgUKPYA&libraries=places"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script type="text/javascript" src="assets/js/zillowapi.js"></script>
+
 </body>
 </html>

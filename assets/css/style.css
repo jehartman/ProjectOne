@@ -1,0 +1,15 @@
+#map 
+{
+min-height: 500px;
+min-width: 600px;
+height: 60%;
+width: 60%;
+border: solid blue 3px;
+float: right;
+margin: 10px;
+padding: 10px;
+}
+
+#prices {
+	float: left;
+}

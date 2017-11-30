@@ -1,6 +1,11 @@
 var address;
 var citystate;
 
+var userLatitude = 30.30;
+var userLongitude = -97.71;
+
+
+
 
 
 
@@ -32,10 +37,30 @@ var search = function(event) {
 		console.log(response);
 		var parser = new DOMParser();
 		var xmlResult = parser.parseFromString(response, "text/xml");
-		var jsonObject = JSON.stringify(xmlToJson(xmlResult));
-		console.log(jsonObject);
-	});
+		var jsonObject = xmlToJson(xmlResult);
+		
+		
+		userLatitude = parseFloat(jsonObject["SearchResults:searchresults"].response.results.result.address.latitude["#text"]);
 
+		userLongitude = parseFloat(jsonObject["SearchResults:searchresults"].response.results.result.address.longitude["#text"]);
+		console.log(userLatitude);
+		console.log(userLongitude);
+		initMap();
+
+		var highPrice = jsonObject["SearchResults:searchresults"].response.results.result.zestimate.valuationRange.high["#text"];
+		var lowPrice = jsonObject["SearchResults:searchresults"].response.results.result.zestimate.valuationRange.low["#text"];
+
+		var formatter = new Intl.NumberFormat('en-US', {
+			style: 'currency',
+			currency: 'USD',
+			minimumFractionDigits: 2,
+		});
+
+		$("#high-price").append(formatter.format(highPrice));
+		$("#low-price").append(formatter.format(lowPrice));
+
+	});
+	
 };
 
 
@@ -96,6 +121,78 @@ var spacesToPlus = function(text) {
 }
 
 
+
+
+//-------------------------------- add commas to prices
+// var addCommas = function(price) {
+// 	console.log(price);
+// 	var newPrice;
+// 	for (var i = price.length; i < 0; i--) {
+// 		if (newPrice.length == 3 || newPrice.length == 7) {
+// 			newPrice.prepend(",");
+// 			newPrice.prepend(price[i]);
+// 			console.log(price);
+// 			console.log(newPrice);
+// 		}
+// 		else {
+// 			newPrice.prepend(price[i]);
+// 			console.log(newPrice)
+// 		}
+// 	}
+// 	console.log(newPrice);
+// 	return newPrice;
+// }
+
+
+
+
+
+
+
+
+//----------------------------------Google Maps stuff
+function initMap() {
+  var austin = {lat: userLatitude, lng: userLongitude};
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: austin,
+    zoom: 16
+  });
+  infowindow = new google.maps.InfoWindow();
+  var service = new google.maps.places.PlacesService(map);
+  service.nearbySearch({
+    location: austin,
+    radius: 500,
+    type: ['store']
+  }, callback);
+}// end init map function do not delete
+
+
+
+function callback(results, status){
+  if (status === google.maps.places.PlacesServiceStatus.OK) {
+    for (var i=0; i < results.length; i++) {
+      createMarker(results[i]);
+    }
+  }
+}
+
+function createMarker(place){
+  var placeLoc = place.geometry.location;
+  var marker = new google.maps.Marker({
+    map: map,
+    position: place.geometry.location
+  });
+  google.maps.event.addListener(marker, 'click', function() {
+    infowindow.setContent(place.name);
+    infowindow.open(map, this);
+  });
+}
+
+
+
+
+$("#user-address").val("7405 Sevilla Dr");
+$("#user-city-state").val("Austin TX");
 
 
 $("#btnSubmit").on("click", search)

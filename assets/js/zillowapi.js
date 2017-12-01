@@ -7,6 +7,8 @@ var userLongitude = -97.71;
 var highPrice;
 var lowPrice;
 
+var origin;
+
 
 
 //---------------------------------------Get data when user inputs info
@@ -129,41 +131,91 @@ var spacesToPlus = function(text) {
 
 
 //----------------------------------Google Maps stuff
+var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+var labelIndex = 0;
+var directionsDisplay;
+var directionsService;
+
 function initMap() {
-  var austin = {lat: userLatitude, lng: userLongitude};
+  var userLocation = {lat: userLatitude, lng: userLongitude};
   map = new google.maps.Map(document.getElementById('map'), {
-    center: austin,
+    center: userLocation,
     zoom: 16
   });
+  createNormalMarkers(userLocation, map);
   infowindow = new google.maps.InfoWindow();
   var service = new google.maps.places.PlacesService(map);
   service.nearbySearch({
-    location: austin,
+    location: userLocation,
     radius: 500,
     type: ['store']
   }, callback);
+  directionsDisplay = new google.maps.DirectionsRenderer();
+  directionsDisplay.setMap(map);
 }
 
 function callback(results, status){
   if (status === google.maps.places.PlacesServiceStatus.OK) {
     for (var i=0; i < results.length; i++) {
-      createMarker(results[i]);
+      createLetterMarkers(results[i]);
     }
   }
 }
 
-function createMarker(place){
-  var placeLoc = place.geometry.location;
-  var marker = new google.maps.Marker({
+function createLetterMarkers(place){
+	directionsService = new google.maps.DirectionsService();
+	var marker = new google.maps.Marker({
     map: map,
+    label: labels[labelIndex++ % labels.length],
     position: place.geometry.location
   });
   google.maps.event.addListener(marker, 'click', function() {
-    infowindow.setContent(place.name);
+  	if (place.opening_hours) {
+  		if (place.opening_hours.open_now) {
+  			placeOpenNow = "Yes!!"
+  		}
+  		else {
+  			placeOpenNow = "No, not right now."
+  		}
+  	}
+  	else {
+  		placeOpenNow = "Not sure, Sorry :("
+  	}
+
+  	console.log(place);
+
+    infowindow.setContent("<h5>" + place.name + "</h5><h7>" + place.vicinity + "<br>Open Now:  " + placeOpenNow + "</h7>");
     infowindow.open(map, this);
+
+	var start = origin;
+	console.log(start);
+	console.log(place);
+	var end = place.place_id;
+	console.log(end);
+	var request = {
+		origin: start,
+		destination: end,
+		travelMode: 'DRIVING'
+  	};
+  	directionsService.route(request, function(result, status) {
+  		if (status == "OK") {
+  			directionsDisplay.setDirections(result);
+  		}
+  	})
+
   });
 }
 
+function createNormalMarkers(place){
+  var marker = new google.maps.Marker({
+    map: map,
+    position: place,
+  });
+  origin = place;
+}
+
+$("#user-address").val("7405 Sevilla Dr");
+$("#user-city-state").val("Austin TX");
 
 
 $("#btnSubmit").on("click", search)

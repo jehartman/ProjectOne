@@ -6,8 +6,6 @@ var userLongitude = -97.71;
 
 var highPrice;
 var lowPrice;
-var changePrice;
-
 
 
 
@@ -45,7 +43,6 @@ var search = function(event) {
 		
 		if (jsonObject["SearchResults:searchresults"].response.results.result[0]) {
 			userLatitude = parseFloat(jsonObject["SearchResults:searchresults"].response.results.result[0].address.latitude["#text"]);
-
 			userLongitude = parseFloat(jsonObject["SearchResults:searchresults"].response.results.result[0].address.longitude["#text"]);
 
 			highPrice = jsonObject["SearchResults:searchresults"].response.results.result[0].zestimate.valuationRange.high["#text"];
@@ -53,7 +50,6 @@ var search = function(event) {
 		}
 		else {
 			userLatitude = parseFloat(jsonObject["SearchResults:searchresults"].response.results.result.address.latitude["#text"]);
-
 			userLongitude = parseFloat(jsonObject["SearchResults:searchresults"].response.results.result.address.longitude["#text"]);
 
 			highPrice = jsonObject["SearchResults:searchresults"].response.results.result.zestimate.valuationRange.high["#text"];
@@ -147,7 +143,6 @@ function initMap() {
     type: ['store']
   }, callback);
 }
-
 
 function callback(results, status){
   if (status === google.maps.places.PlacesServiceStatus.OK) {

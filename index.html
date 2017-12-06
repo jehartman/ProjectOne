@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Zillow Companion</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <!-- Compiled and minified CSS -->
+  	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.css">
+  <!-- Compiled and minified JavaScript -->
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.js"></script>
+      <!--Import Google Icon Font-->
+     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <!--Import materialize.css-->
+		<link type="text/css" rel="stylesheet" href="assets/css/reset.css"  media="screen,projection"/>
+     <link type="text/css" rel="stylesheet" href="assets/css/materialize.css"  media="screen,projection"/>
+
+     <link type="text/css" rel="stylesheet" href="assets/css/style.css"  media="screen,projection"/>
+     <link href="https://fonts.googleapis.com/css?family=Bungee|Carter+One|Concert+One|Fugaz+One|Passion+One|Paytone+One|Permanent+Marker|Righteous|Shrikhand|Sigmar+One" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <div id="parallax-floor" class="parallax-container">
+
+    <div class="section no-pad-bot">
+      <div class="container">
+      	<div id="upfront"></div>
+        	<h1 id="headerTitle" class="header center teal-text text-lighten-2">ZILLOW COMPANION</h1>
+        <div class="row center">
+          <h5 id="headerCaption" class="header col s12 light">LEARN THE NEIGHBORHOOD BEFORE YOU BUY</h5>
+        </div>
+      </div>
+    </div>
+    <div class="parallax" id="p-background">
+    	<img id="houseBackground" src="assets/images/layeredOne.png" alt="houses">
+    </div>
+
+  </div>
+
+
+<div class="container">
+	<div class="row"><!--  this contains both form and map -->
+      <div class="col s4"> <!-- this contains form -->
+
+		<div class="row">
+			<form class="col s12"> <!-- the address input -->
+
+		      <div class="row"> <!-- input row -->
+		        <div class="input-field col s12">
+		          <input  id="user-address" type="text" class="validate">
+		          <label for="user-address">Street Address</label>
+		        </div> <!-- end of input-field for steet address -->
+		      </div> <!-- end of address row within s4-->
+
+				<div class="row"><!--  the city row -->
+					<div class="input-field col s12">
+						<input id="user-city-state" type="text" class="validate">
+						<label for="user-city-state">City and State (ex: Austin TX)</label>
+					</div>
+					<div id="errorMessage">
+						<p>Please use "CITY ST" format without commas (example: Austin TX)</p>
+					</div>
+				</div> <!-- end of city row -->
+
+				<div>
+				   	<button type="submit" class="btn btn-primary" id="btnSubmit">Submit</button>
+				</div>
+
+			</form><!--end of materialize form-->
+
+		<div class="row">
+
+
+		<div class="row" id="LowPrices">
+			<div class="col s12">
+				<div>
+							Lowest prices in the area:
+					<div id="low-price">
+						<div class="row">
+        					<div class="col s12 m6">
+				          		<div class="card blue-grey darken-1">
+				            		<div class="card-content white-text">
+				             	 		<span class="card-title">Result</span>
+				              			<p>We could put information here. Not sure these big cards are the right format.</p>
+				            		</div>
+				            		<div class="card-action">
+				              			<a href="#">This is a link</a>
+				            		</div>
+				          		</div>
+			        		</div>
+			      		</div>
+
+					</div>
+				</div>
+			</div>
+
+			<div class="col s12">
+						Highest Prices in the area:
+				<div id="high-price">
+
+				</div>
+			</div>
+		</div>
+
+
+
+		</div><!--end of materialize enclosing row, contains both map and form-->
+
+
+
+			</div> <!-- end of column width s4 -->
+
+
+
+    </div><!--  end of main s4 column -->
+
+    <div class="col s8 z-depth-5" id="mapOuterContainer"> <!--  start of main s8 column -->
+  		<div id="map" class="col s12">
+
+		</div>
+    </div> <!-- end of cols8 -->
+   </div>
+
+
+
+
+
+        <footer class="page-footer">
+          <div class="container">
+            <div class="row">
+              <div class="col l6 s12">
+                <h5 class="white-text">Footer Content</h5>
+                <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
+              </div>
+              <div class="col l4 offset-l2 s12">
+                <h5 class="white-text">Links</h5>
+                <ul>
+                  <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
+                  <li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>
+                  <li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>
+                  <li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="footer-copyright">
+            <div class="container">
+            © 2014 Copyright Text
+            <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+            </div>
+          </div>
+        </footer>
+
+</div><!-- end of materialize container-->
+    <!--Import jQuery before materialize.js-->
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="assets/js/materialize.js"></script>
+
+<!-- <script type="text/javascript" src="assets/js/gmap.js"></script> I THINK WE MIGHT NEED THIS-->
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDzamXziujXKppE1n_9Ec7J9bsgNgUKPYA&libraries=places"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+<script type="text/javascript" src="assets/js/gmap.js"></script>
+</body>
+
+</html>

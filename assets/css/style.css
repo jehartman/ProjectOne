@@ -1,15 +1,113 @@
-#map 
-{
-min-height: 500px;
-min-width: 600px;
-height: 60%;
-width: 60%;
-border: solid blue 3px;
-float: right;
-margin: 10px;
-padding: 10px;
+/*font-family: 'Passion One', cursive;
+font-family: 'Shrikhand', cursive;
+font-family: 'Righteous', cursive;
+font-family: 'Permanent Marker', cursive;
+font-family: 'Concert One', cursive;
+font-family: 'Bungee', cursive;
+font-family: 'Fugaz One', cursive;
+font-family: 'Sigmar One', cursive;
+font-family: 'Paytone One', sans-serif;
+font-family: 'Carter One', cursive;*/
+
+
+
+body {
+/*	background-color: #D8FFFF;*/
+	background: url("../images/blu_stripes.png") !important;
 }
 
+
+h5 {
+	color: white;
+}
+
+#mapOuterContainer {
+	margin-top: 20px;
+	height: 600px;
+}
+
+#mapContainer {
+	text-align: center;
+	float: right;
+}
+
+#map
+{
+/*min-height: 500px;
+min-width: 600px;*/
+height: auto;
+width: 70%;
+
+/*float: right;*/
+margin: 10px;
+padding: 10px;
+
+}
+
+#houseBackground {
+	padding-top: 25px;
+}
+
+#headerTitle {
+	text-align: left;
+	color: #3e88b7 !important;
+	font-family: 'Paytone One', cursive;
+			text-shadow:
+		-3px -3px 0 #fff,
+		3px -3px 0 #fff,
+		-3px 3px 0 #fff,
+		3px 3px 0 #fff;
+}
+
+#headerCaption {
+
+	font-size: 2em;
+	text-align: right;
+	padding-left: 60%;
+	font-weight: 200;
+	color: #3e88b7 !important;
+	font-family: 'Paytone One', cursive;
+			text-shadow:
+		-3px -3px 0 #fff,
+		3px -3px 0 #fff,
+		-3px 3px 0 #fff,
+		3px 3px 0 #fff;
+	letter-spacing: 2px;
+}
+
+#questionMarks {
+	opacity: .9;
+}
+
+#p-background {
+	max-height: 200px;
+
+}
+
+
+#parallax-floor {
+  /*background: url('../images/housesDimmedWideCrop60Light.png') !important;*/
+  z-index: -1;
+  background-repeat: 0 0;
+  height: 300px;
+  background-size: auto;
+}
+
+#errorMessage {
+	visibility: visible;
+	color: red;
+	font-size: .8em;
+}
+/*
 #prices {
 	float: left;
-}
+}*/
+
+/*img {
+	height: 500px;
+	width: 600px;
+/*}*/
+
+/*.row {
+	border: 1px yellow solid;
+}*/

@@ -16,14 +16,12 @@ var search = function(event) {
 	address = $("#user-address").val();
 	citystate = $("#user-city-state").val();
   if (citystate.indexOf(",") !== -1) {
-    console.log("there's a comma");
     $("#errorMessage").css("visibility", "visible");
 		console.log("Visibility = " + $("#errorMessage").attr("visibility"));
     return;
   }
 
   else {
-    console.log("no comma");
     $("#errorMessage").css("visibility", "hidden");
 		$(".prices").css("visibility", "visible");
   }

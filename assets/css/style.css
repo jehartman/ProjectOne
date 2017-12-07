@@ -73,6 +73,9 @@ h5 {
 	font-family: 'Paytone One', cursive;
 	font-size: 2em;
 }
+#place-name {
+	color: black;
+}
 
 #mainSection {
 	margin-top: 20px;

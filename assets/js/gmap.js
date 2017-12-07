@@ -166,7 +166,7 @@ function initMap() {
 	createNormalMarkers(userLocation, map);
 
 	// --- Thing needed so the information bubbles work
-	var infowindow = new google.maps.InfoWindow();
+	infowindow = new google.maps.InfoWindow();
 
 	// --- Finding interesting things in the area
 	var service = new google.maps.places.PlacesService(map);
@@ -215,7 +215,7 @@ function createLetterMarkers(place){
 		}
 
 		// --- Defines what appears in the information bubble
-		infowindow.setContent("<h5>" + place.name + "</h5><h7>" + place.vicinity + "<br>Open Now:  " + placeOpenNow + "</h7>");
+		infowindow.setContent("<h5 id='place-name'>" + place.name + "</h5><h7>" + place.vicinity + "<br>Open Now:  " + placeOpenNow + "</h7>");
 		infowindow.open(map, this);
 
 		// --- Defines our Directions request

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Zillow Companion</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.js"></script>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link type="text/css" rel="stylesheet" href="assets/css/reset.css" media="screen,projection" />
+	<link type="text/css" rel="stylesheet" href="assets/css/materialize.css" media="screen,projection" />
+	<link type="text/css" rel="stylesheet" href="assets/css/style.css" media="screen,projection" />
+	<link href="https://fonts.googleapis.com/css?family=Paytone+One" rel="stylesheet">
+
+</head>
+
+<body>
+
+	<div id="parallax-floor" class="parallax-container">
+		<div class="section no-pad-bot">
+			<div class="container">
+				<h1 id="headerTitle" class="header center teal-text text-lighten-2">ZILLOW COMPANION</h1>
+				<div class="row center">
+					<h5 id="headerCaption" class="header col s12 light">LEARN THE NEIGHBORHOOD BEFORE YOU BUY</h5>
+				</div>
+			</div>
+		</div>
+		<div class="parallax" id="p-background">
+			<img id="houseBackground" src="assets/images/layeredOne.png" alt="houses">
+		</div>
+	</div>
+
+	<div class="container">
+					<!--  this contains both form and map -->
+		<div class="row" id="mainSection">
+
+				<!-- this contains form -->
+			<div class="col s4">
+				<div class="row">
+					<form class="col s12">
+						<div class="row">
+							<!-- address input row -->
+							<div class="input-field col s12">
+								<input id="user-address" type="text" class="validate">
+								<label for="user-address">Street Address</label>
+							</div>
+						</div>
+
+						<div class="row">
+							<!--  the city row -->
+							<div class="input-field col s12">
+								<input id="user-city-state" type="text" class="validate">
+								<label for="user-city-state">City and State (ex: Austin TX)</label>
+							</div>
+							<div id="errorMessage">
+								Please use "CITY ST" format without commas (example: Austin TX)
+							</div>
+						</div>
+						<div>
+							<button type="submit" class="btn btn-primary" id="btnSubmit">Submit</button>
+						</div>
+					</form>
+
+					<div class="row">
+						<div class="row">
+
+							<div class="col s12 prices">
+								<div class="innerPrices">
+									<br>
+									Lowest prices in the area:
+									<div id="low-price" class="priceReturn">
+									</div>
+								</div>
+							</div>
+
+							<div class="col s12 prices">
+								<div class="innerPrices">
+									Highest Prices in the area:
+									<div id="high-price" class="priceReturn"></div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<!--end of materialize enclosing row, contains both map and form-->
+				</div>
+				<!-- end of column width s4 -->
+			</div>
+			<!--  end of main s4 column -->
+
+			<div class="col s8 z-depth-5" id="mapOuterContainer">
+				<!--  start of main s8 column -->
+				<div id="map" class="col s12">
+				</div>
+			</div>
+			<!-- end of cols8 -->
+		</div>
+
+		<footer class="page-footer">
+			<div class="footer-copyright">
+				<div class="container">
+					© 2017 James & Jeff & Mike & Will
+					<a class="grey-text text-lighten-4 right" href="mailto:applejeff@mac.com">Contact Us</a>
+				</div>
+			</div>
+		</footer>
+
+	</div>
+	<!-- end of materialize container-->
+	<!--Import jQuery before materialize.js-->
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="assets/js/materialize.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDzamXziujXKppE1n_9Ec7J9bsgNgUKPYA&libraries=places"></script>
+	<script type="text/javascript" src="assets/js/gmap.js"></script>
+</body>
+
+</html>

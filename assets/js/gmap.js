@@ -15,15 +15,16 @@ var search = function(event) {
 	// --- Save user inputs as variables
 	address = $("#user-address").val();
 	citystate = $("#user-city-state").val();
-  if (cityState.indexOf(",") !== -1) {
+  if (citystate.indexOf(",") !== -1) {
     console.log("there's a comma");
     $("#errorMessage").attr("visibility", "visible");
+		console.log($("#errorMessage").attr("visibility"));
     return;
   }
 
   else {
     console.log("no comma");
-    $("#errorMessage").attr("visibility", "invisible");
+    $("#errorMessage").attr("visibility", "hidden");
   }
 
 

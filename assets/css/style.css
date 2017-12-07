@@ -1,21 +1,6 @@
-/*font-family: 'Passion One', cursive;
-font-family: 'Shrikhand', cursive;
-font-family: 'Righteous', cursive;
-font-family: 'Permanent Marker', cursive;
-font-family: 'Concert One', cursive;
-font-family: 'Bungee', cursive;
-font-family: 'Fugaz One', cursive;
-font-family: 'Sigmar One', cursive;
-font-family: 'Paytone One', sans-serif;
-font-family: 'Carter One', cursive;*/
-
-
-
 body {
-/*	background-color: #D8FFFF;*/
 	background: url("../images/blu_stripes.png") !important;
 }
-
 
 h5 {
 	color: white;
@@ -26,22 +11,10 @@ h5 {
 	height: 600px;
 }
 
-#mapContainer {
-	text-align: center;
-	float: right;
-}
-
 #map
 {
-/*min-height: 500px;
-min-width: 600px;*/
-height: auto;
-width: 70%;
-
-/*float: right;*/
-margin: 10px;
-padding: 10px;
-
+	height: 100%;
+	width: 100%;
 }
 
 #houseBackground {
@@ -84,6 +57,12 @@ padding: 10px;
 
 }
 
+.prices {
+	margin: 20px 0 0 0;
+	border: solid 1px black;
+}
+
+
 
 #parallax-floor {
   /*background: url('../images/housesDimmedWideCrop60Light.png') !important;*/
@@ -94,20 +73,9 @@ padding: 10px;
 }
 
 #errorMessage {
-	visibility: visible;
+	visibility: hidden !important;
 	color: red;
 	font-size: .8em;
 }
-/*
-#prices {
-	float: left;
-}*/
 
-/*img {
-	height: 500px;
-	width: 600px;
-/*}*/
-
-/*.row {
-	border: 1px yellow solid;
-}*/
+#lowPrices, #HighPrices

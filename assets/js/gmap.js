@@ -17,15 +17,15 @@ var search = function(event) {
 	citystate = $("#user-city-state").val();
   if (citystate.indexOf(",") !== -1) {
     console.log("there's a comma");
-    $("#errorMessage").attr("visibility", "visible");
+    $("#errorMessage").css("visibility", "visible");
 		console.log("Visibility = " + $("#errorMessage").attr("visibility"));
     return;
   }
 
   else {
     console.log("no comma");
-    $("#errorMessage").attr("visibility", "hidden");
-		$(".prices").attr("visibility", "visible");
+    $("#errorMessage").css("visibility", "hidden");
+		$(".prices").css("visibility", "visible");
   }
 
 

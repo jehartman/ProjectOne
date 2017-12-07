@@ -86,7 +86,7 @@ h5 {
 }
 
 #errorMessage {
-	visibility: hidden !important;
+	visibility: hidden ;
 	color: red;
 	font-size: .8em;
 }

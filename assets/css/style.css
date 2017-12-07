@@ -58,14 +58,27 @@ h5 {
 }
 
 .prices {
-	margin: 20px 0 0 0;
-	border: solid 1px black;
+	visibility: hidden;
+	margin: 30px 0 20px 0;
 }
 
+.innerPrices {
+	color: #3e88b7 !important;
+	font-family: 'Paytone One', cursive;
+	font-size: 1em;
+}
 
+.priceReturn {
+	/*color: #3e88b7 !important;*/
+	font-family: 'Paytone One', cursive;
+	font-size: 2em;
+}
+
+#mainSection {
+	margin-top: 20px;
+}
 
 #parallax-floor {
-  /*background: url('../images/housesDimmedWideCrop60Light.png') !important;*/
   z-index: -1;
   background-repeat: 0 0;
   height: 300px;
@@ -78,4 +91,7 @@ h5 {
 	font-size: .8em;
 }
 
-#lowPrices, #HighPrices
+#lowPrices, #HighPrices {
+	color: #3e88b7 !important;
+	font-family: 'Paytone One', cursive;
+}

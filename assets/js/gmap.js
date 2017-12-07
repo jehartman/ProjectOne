@@ -25,6 +25,7 @@ var search = function(event) {
   else {
     console.log("no comma");
     $("#errorMessage").attr("visibility", "hidden");
+		$(".prices").attr("visibility", "visible");
   }
 
 

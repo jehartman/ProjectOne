@@ -15,16 +15,15 @@ var search = function(event) {
 	// --- Save user inputs as variables
 	address = $("#user-address").val();
 	citystate = $("#user-city-state").val();
-  if (citystate.indexOf(",") !== -1) {
-    $("#errorMessage").css("visibility", "visible");
-		console.log("Visibility = " + $("#errorMessage").attr("visibility"));
-    return;
-  }
+  	if (citystate.indexOf(",") !== -1) {
+    	$("#errorMessage").css("visibility", "visible");
+		return;
+	}
 
-  else {
-    $("#errorMessage").css("visibility", "hidden");
+	else {
+		$("#errorMessage").css("visibility", "hidden");
 		$(".prices").css("visibility", "visible");
-  }
+	}
 
 
 	// --- Convert Spaces to plus signs

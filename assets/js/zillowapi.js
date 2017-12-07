@@ -1,48 +1,42 @@
+//--------------------------------------- Zillow API
 var address;
 var citystate;
-
-var userLatitude = 30.30;
-var userLongitude = -97.71;
-
 var highPrice;
 var lowPrice;
 
-var origin;
 
-
-
-//---------------------------------------Get data when user inputs info
 var search = function(event) {
 	event.preventDefault();
 
+	// --- Empty divs of any previous searches
 	$("#high-price").empty();
 	$("#low-price").empty();
 
+	// --- Save user inputs as variables
 	address = $("#user-address").val();
 	citystate = $("#user-city-state").val();
 	
+	// --- Convert Spaces to plus signs
 	var addressConverted = spacesToPlus(address);
 	var citystateConverted = spacesToPlus(citystate);
-
 
 	// zwsid = X1-ZWz18vkeamfbbf_493z4
 	var queryURL = "https://galvanize-cors-proxy.herokuapp.com/http://www.zillow.com/webservice/GetSearchResults.htm?zws-id=X1-ZWz18vkeamfbbf_493z4&address=" + addressConverted + "&citystatezip=" + citystateConverted;
 
-	// Performing an AJAX request with the queryURL
+	// --- Performing an AJAX request with the queryURL
 	$.ajax({
 		url: queryURL,
 		method: "GET",
 		dataType: "text"
 	})
-	// After data comes back from the request
+	// --- After data comes back from the request
 	.done(function(response) {
+		// --- Convert the Zillow response from XML to JSON
 		var parser = new DOMParser();
 		var xmlResult = parser.parseFromString(response, "text/xml");
 		var jsonObject = xmlToJson(xmlResult);
-
-		console.log(jsonObject);
 		
-		
+		// --- Get desired data from JSON
 		if (jsonObject["SearchResults:searchresults"].response.results.result[0]) {
 			userLatitude = parseFloat(jsonObject["SearchResults:searchresults"].response.results.result[0].address.latitude["#text"]);
 			userLongitude = parseFloat(jsonObject["SearchResults:searchresults"].response.results.result[0].address.longitude["#text"]);
@@ -58,14 +52,17 @@ var search = function(event) {
 			lowPrice = jsonObject["SearchResults:searchresults"].response.results.result.zestimate.valuationRange.low["#text"];
 		}
 		
+		// --- Load Map with provided Latitude and Longitude
 		initMap();
 
+		// --- Thing to make prices look fancy
 		var formatter = new Intl.NumberFormat('en-US', {
 			style: 'currency',
 			currency: 'USD',
 			minimumFractionDigits: 2,
 		});
 
+		// --- Display formatted prices
 		$("#high-price").append(formatter.format(highPrice));
 		$("#low-price").append(formatter.format(lowPrice));
 	});
@@ -124,7 +121,7 @@ var spacesToPlus = function(text) {
 			newText += text[i];
 		}
 	}
-	return newText
+	return newText;
 }
 
 
@@ -134,88 +131,103 @@ var spacesToPlus = function(text) {
 var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 var labelIndex = 0;
 var directionsDisplay;
-var directionsService;
+var directionsService = new google.maps.DirectionsService();
+var map;
+var userLocation;
 
+// --- Whenever the map is loaded...
 function initMap() {
-  var userLocation = {lat: userLatitude, lng: userLongitude};
-  map = new google.maps.Map(document.getElementById('map'), {
-    center: userLocation,
-    zoom: 16
-  });
-  createNormalMarkers(userLocation, map);
-  infowindow = new google.maps.InfoWindow();
-  var service = new google.maps.places.PlacesService(map);
-  service.nearbySearch({
-    location: userLocation,
-    radius: 500,
-    type: ['store']
-  }, callback);
-  directionsDisplay = new google.maps.DirectionsRenderer();
-  directionsDisplay.setMap(map);
+	// --- Thing needed for directions to display properly
+	directionsDisplay = new google.maps.DirectionsRenderer();
+
+	// --- Saving our Longitude and Latidute we got from Zillow
+	userLocation = new google.maps.LatLng(userLatitude, userLongitude);
+	
+	// --- Defining the map
+	map = new google.maps.Map(document.getElementById('map'), {
+		center: userLocation,
+		zoom: 16
+	});
+
+	// --- Create a normal marker for the input address
+	createNormalMarkers(userLocation, map);
+
+	// --- Thing needed so the information bubbles work
+	infowindow = new google.maps.InfoWindow();
+
+	// --- Finding interesting things in the area
+	var service = new google.maps.places.PlacesService(map);
+	service.nearbySearch({
+		location: userLocation,
+		radius: 500,
+		type: ['store', 'point_of_interest']
+	}, callback);
+
+	// --- Once we have directions, display them on the map
+	directionsDisplay.setMap(map);
 }
 
+// --- This makes a Lettered Marker for each interesting thing
 function callback(results, status){
-  if (status === google.maps.places.PlacesServiceStatus.OK) {
-    for (var i=0; i < results.length; i++) {
-      createLetterMarkers(results[i]);
-    }
-  }
+	if (status === google.maps.places.PlacesServiceStatus.OK) {
+		for (var i=0; i < results.length; i++) {
+			createLetterMarkers(results[i]);
+		}
+	}
 }
 
+// --- Function that actually makes the Lettered Markers
 function createLetterMarkers(place){
-	directionsService = new google.maps.DirectionsService();
+	// --- Makes each marker
 	var marker = new google.maps.Marker({
-    map: map,
-    label: labels[labelIndex++ % labels.length],
-    position: place.geometry.location
-  });
-  google.maps.event.addListener(marker, 'click', function() {
-  	if (place.opening_hours) {
-  		if (place.opening_hours.open_now) {
-  			placeOpenNow = "Yes!!"
-  		}
-  		else {
-  			placeOpenNow = "No, not right now."
-  		}
-  	}
-  	else {
-  		placeOpenNow = "Not sure, Sorry :("
-  	}
+		map: map,
+		label: labels[labelIndex++ % labels.length],
+		position: place.geometry.location
+	});
 
-  	console.log(place);
+	// --- On-click listener made for each marker
+	google.maps.event.addListener(marker, 'click', function() {
+		// --- Figuring out Store Hours
+		if (place.opening_hours) {
+			if (place.opening_hours.open_now) {
+				placeOpenNow = "Yes!!"
+			}
+			else {
+				placeOpenNow = "No, not right now."
+			}
+		}
+		// --- Displays if Google doesn't have info for this place
+		else {
+			placeOpenNow = "No data"
+		}
 
-    infowindow.setContent("<h5>" + place.name + "</h5><h7>" + place.vicinity + "<br>Open Now:  " + placeOpenNow + "</h7>");
-    infowindow.open(map, this);
+		// --- Defines what appears in the information bubble
+		infowindow.setContent("<h5 id='place-name'>" + place.name + "</h5><h7>" + place.vicinity + "<br>Open Now:  " + placeOpenNow + "</h7>");
+		infowindow.open(map, this);
 
-	var start = origin;
-	console.log(start);
-	console.log(place);
-	var end = place.place_id;
-	console.log(end);
-	var request = {
-		origin: start,
-		destination: end,
-		travelMode: 'DRIVING'
-  	};
-  	directionsService.route(request, function(result, status) {
-  		if (status == "OK") {
-  			directionsDisplay.setDirections(result);
-  		}
-  	})
+		// --- Defines our Directions request
+		var request = {
+			origin: userLocation,
+			destination: place.geometry.location,
+			travelMode: 'DRIVING'
+		};
 
-  });
+		// --- Get directions from Google
+		directionsService.route(request, function(result, status) {
+			if (status == "OK") {
+				directionsDisplay.setDirections(result);
+			}
+		})
+	});
 }
 
+// --- Function that makes the normal marker
 function createNormalMarkers(place){
-  var marker = new google.maps.Marker({
-    map: map,
-    position: place,
-  });
-  origin = place;
+	var marker = new google.maps.Marker({
+		map: map,
+		position: place,
+	});
 }
 
-$("#user-address").val("7405 Sevilla Dr");
-$("#user-city-state").val("Austin TX");
-
-
+// --- On-click listener for the Submit button
 $("#btnSubmit").on("click", search)

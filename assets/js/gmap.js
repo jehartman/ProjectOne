@@ -18,7 +18,7 @@ var search = function(event) {
   if (citystate.indexOf(",") !== -1) {
     console.log("there's a comma");
     $("#errorMessage").attr("visibility", "visible");
-		console.log($("#errorMessage").attr("visibility"));
+		console.log("Visibility = " + $("#errorMessage").attr("visibility"));
     return;
   }
 

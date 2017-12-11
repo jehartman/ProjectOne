@@ -9,3 +9,4 @@ The left side panel will also display the range of prices of other homes in that
 If you click on the marker for the places around the home you are looking for infomration about that place will display
 (such as is this place currently open)
 
+If user double clicks on marker it will display a route from the address originally entered to the marker for the location user clicked on.
